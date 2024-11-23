@@ -26,8 +26,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Image
             src="/cloud-logo.png"
             alt="Files"
-            width={342}
-            height={342}
+            width={442}
+            height={442}
             className="transition-all hover:rotate-2 hover:scale-105"
           />
         </div>
