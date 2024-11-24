@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,20 +15,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import Image from "next/image";
+import Link from "next/link";
 
-const formSchema = z.object({
-  username: z.string().min(2).max(20),
-});
 
 type FormType = "signup" | "signin";
 
+const authFormSchema = (formType: FormType) => {
+  return z.object({
+    email: z.string().email(),
+    fullName: formType === "signup" ? z.string().min(2).max(50) : z.string().optional(),
+  });
+};
+
 const AuthForm = ({ type }: { type: FormType }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const formSchema = authFormSchema(type);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      fullName: "",
+      email: "",
     },
   });
 
@@ -71,7 +78,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           )}
           <FormField
             control={form.control}
-            name="fullName"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <div className="shad-form-item">
@@ -90,18 +97,37 @@ const AuthForm = ({ type }: { type: FormType }) => {
             )}
           />
 
-          <Button type="submit" className="form-submit-button">
+          <Button
+            type="submit"
+            className="form-submit-button"
+            disabled={isLoading}
+          >
             {type === "signin" ? "Sign In" : "Sign up"}
             {isLoading && (
               <Image
-                src="/logo.png"
+                src="/assets/icons/loader.svg"
                 alt="loader"
                 width={24}
                 height={24}
-                className="ml-2 animate-spint"
+                className="ml-2 animate-spin"
               />
             )}
           </Button>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <div className="body-2 flex justify-center">
+            <p className="text-light-100">
+              {type === "signin"
+                ? "Don't have an account?"
+                : "Already have an account?"}
+            </p>
+            <Link
+              href={type === "signin" ? "/signup" : "/signin"}
+              className="ml-1 font-medium text-brand-100"
+            >
+              {" "}
+              {type === "signin" ? "Sign Up" : "Sign In"}
+            </Link>
+          </div>
         </form>
       </Form>
 
