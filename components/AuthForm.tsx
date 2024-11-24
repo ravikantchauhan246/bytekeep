@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import Image from "next/image";
 import Link from "next/link";
+import { createAccount } from "@/lib/actions/user.actions";
 
 
 type FormType = "signup" | "signin";
@@ -30,6 +31,7 @@ const authFormSchema = (formType: FormType) => {
 const AuthForm = ({ type }: { type: FormType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [accountId, setAccountId] = useState(null);
   const formSchema = authFormSchema(type);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,6 +44,18 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try{
+      const user = await createAccount({fullName: values.fullName || "", email: values.email});
+      setAccountId(user.accountId);
+    } catch {
+      setErrorMessage("Failed to create account. Please try again after some time.");
+    } finally {
+      setIsLoading(false);
+    }
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
