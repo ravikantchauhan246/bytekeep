@@ -36,7 +36,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <section className="flex flex-1 flex-col items-center bg-white p-4 py-10 lg:justify-center lg:p-10 lg:py-0">
         <div className="mb-16 lg:hidden">
           <Image
-            src="/favicon.ico"
+            src="https://res.cloudinary.com/do9v8bgv9/image/upload/v1732548828/wqsr0vrxgsbjdboof0qj.svg"
             alt="logo"
             width={224}
             height={82}
