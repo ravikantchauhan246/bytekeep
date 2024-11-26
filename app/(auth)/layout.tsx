@@ -42,6 +42,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             height={82}
             className="h-auto w-[200px] lg:w-[250px]"
           />
+          
         </div>
 
         {children}
