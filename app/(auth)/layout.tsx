@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             height={82}
             className="h-auto"
           />
-          <p className="mt-5 text-white text-5xl text-light">ByteKeep</p>
+          <p className="mt-5 text-5xl text-white">ByteKeep</p>
           </div>
 
           <div className="space-y-5 text-white">
