@@ -63,7 +63,7 @@ export const createAccount = async ({
       {
         fullName,
         email,
-        avatar: "https://pngtree.com/so/avatar-logo",
+        avatar: "https://pngtree.com/freepng/avatar-logo-of-a-men-vector_15438362.html",
         accountId,
       }
     );
