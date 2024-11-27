@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation'
 
 const Layout = async ({children}:{children:React.ReactNode}) => {
   const currentUser = await getCurrentUser();
-  if(!currentUser) redirect('/signin');
+  if(!currentUser) redirect('/signup');
   return (
     <main className='flex h-screen'>
         <Sidebar {...currentUser}/>

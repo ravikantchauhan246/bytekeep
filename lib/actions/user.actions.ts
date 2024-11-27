@@ -1,7 +1,7 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
@@ -97,7 +97,7 @@ export const verifySecret = async ({
 
 export const getCurrentUser = async () => {
     try {
-        const { database, account } = await createAdminClient();
+        const { database, account } = await createSessionClient();
         const result = await account.get();
 
         const user = await database.listDocuments(
