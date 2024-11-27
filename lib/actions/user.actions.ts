@@ -5,6 +5,7 @@ import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 // Create  account flow
 
@@ -115,3 +116,34 @@ export const getCurrentUser = async () => {
         return null;
     }
 } 
+
+
+export const signOutUser = async () =>{
+  const {account} = await createSessionClient();
+
+  try{
+    await account.deleteSession('current');
+    (await cookies()).delete('appwrite-session');
+  }catch(error){
+    handleError(error, 'Failed to sign out user');
+  }finally{
+    redirect('/signin');
+  }
+  
+  
+} 
+
+export const signInUser = async({email}:{email:string})=>{
+  try{
+      const existingUser = await getUserByEmail(email);
+
+      if(existingUser){
+        await sendEmailOTP({email});
+        return parseStringify({accountId: existingUser.accountId});
+      }
+
+      return parseStringify({accountId:null, rror:"User not found"});
+  }catch(error){
+    handleError(error, 'Failed to sign in user');
+  }
+}
